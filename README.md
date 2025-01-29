@@ -1,6 +1,6 @@
 # Multi-Password Support for WPA3
 
-<img align="right" src="multipw.png" width="90px">
+<img align="right" src="multipw.png" width="100px">
 
 _<p align="center">Part of [NGI Sargasso's](https://ngisargasso.eu/innovators/) Decoy-Auth project.</p>_
 
@@ -8,7 +8,7 @@ This project investigates how to support **multiple simultaneous passwords in mo
 This means each user or device can be given a unique password, which simplifies user and device
 management while also allowing the user's identity to be derived from their password.
 
-<img align="right" src="decoyauth.png" width="90px">
+<img align="right" src="decoyauth.png" width="100px">
 
 This is done as part of the Decoy-Auth project, funded by NGI Sargasso, aiming to design
 a zero-knowledge authentication protocol that supports multiple passwords. This allows using
