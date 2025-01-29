@@ -12,8 +12,8 @@ management while also allowing the user's identity to be derived from their pass
 
 This is done as part of the Decoy-Auth project, funded by NGI Sargasso, aiming to design
 a zero-knowledge authentication protocol that supports multiple passwords. This allows using
-multiple passwords for network access, including decoy (honey) passwords, which act as reverse
-honeypots to detect security breaches.
+multiple passwords for network access and allows using decoy (honey) passwords that act as
+reverse honeypots to detect security breaches.
 
 # Background
 
