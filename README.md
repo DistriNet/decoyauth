@@ -32,4 +32,5 @@ and ease of use.
 
 # Latest Updates
 
-- 7 February 2025: Presentation at the [PAKE'25 workshop](https://afonsoarriaga.github.io/pake-25/) in Luxembourg.
+- 7 February 2025: Presentation at the [PAKE'25 workshop](https://afonsoarriaga.github.io/pake-25/) in Luxembourg. The [slides are public](docs/pake2025-slides.pdf).
+
