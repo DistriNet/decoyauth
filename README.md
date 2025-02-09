@@ -18,4 +18,4 @@ More broadly, we hope our work will also be the basis of other future research o
 
 # Latest Updates
 
-- February 2025: Planned presentation on our initial design.
+- February 2025: Presentation on our initial design, the [slides are public](docs/slides-feb2025.pdf).
