@@ -33,4 +33,5 @@ and ease of use.
 # Latest Updates
 
 - 7 February 2025: Presentation at the [PAKE'25 workshop](https://afonsoarriaga.github.io/pake-25/) in Luxembourg. The [slides are public](docs/pake2025-slides.pdf).
+- 18 March 2025: [Proof-of-concept Python code](scripts/README.md) of a first protocol design was added. This is only for experimentation, do not use it in production.
 
