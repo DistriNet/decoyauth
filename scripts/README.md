@@ -1,4 +1,4 @@
-# Multi-Password Dragonfy: Proof-of-Concept in Python
+# Multi-Password Dragonfly: Proof-of-Concept in Python
 
 The repository contains a proof-of-concept implementation that adds multi-password functionality to the WPA3's Dragonfly handshake, also known as Simultaneous Authentication of Equals (SAE) in the IEEE 802.11 standard. With this extension, an Access Point (AP) will accept multiple passwords, and the AP will learn which password the client selected. It is designed to provide the same security guarantees as standard WPA3, i.e., resistance against offline dictionary attacks, forward secrecy, etc.
 
@@ -58,14 +58,15 @@ The script will simulate a client (STA) that is connecting to an Access Point (A
 The implemented protocol corresponds to slide 32 in our [PAKE'25 presentation](../docs/pake2025-slides.pdf). In summary, our extension is inspired by the [O-PAKE protocol](https://link.springer.com/chapter/10.1007/978-3-319-23318-5_11) and, in particular, relies on index hiding message encoding (IHME). At a high level, the protocol works as follows:
 
 - The client sends a normal Commit frame to the AP.
-- The AP now replies with _n_ Commit frames, where _n_ equals the number of passwords. Instead of sending these commit frames directly, the elliptic curve points in these commit frames are encoded using IHME. That is, a polynomial is generated where the x coordinates equal the hashed passwords, and the y values are equal to the encoding of the elliptic curve point in each commit frame. The coefficients of the polynomial _f_ are transmitted to the client.
+- The AP now replies with _n_ Commit frames, where _n_ equals the number of passwords. Instead of sending these commit frames directly, the elliptic curve points in these commit frames are encoded using IHME. That is, a polynomial is [interpolated](https://en.wikipedia.org/wiki/Polynomial_interpolation) through n data points, where the x coordinate of each data point equals a hashed passwords, and the y coordinate of each data point equals the encoding of the elliptic curve point in each commit frame. The coefficients of the polynomial _f_ are transmitted to the client.
 - The client calculates _f(hash(pw))_ to obtain the elliptic curve point that matches the client's password. If the client uses a wrong password, this results in a random but valid elliptic curve point. The client performs the usual Dragonfly computations based on the elliptic curve point and replies to the AP using a Confirm value.
-- The AP iterators over all possible passwords until the password is found that results in the same Confirm value as received by the client. If no match is found, authentication is failed. If a match is found, the AP learns which password the client has used.
+- The AP iterators over all possible passwords until the password is found that results in the same Confirm value as received fromt the client. If no match is found, authentication is failed. If a match is found, the AP learns which password the client has used.
+- Finally, if a password match was found, the AP also replies with a Confirm value to the client.
 
 Extra remarks:
 - Note that IHME, i.e., polynomial interpolation, is only used to encode the elliptic curve point. The scalar value used in Dragonfly's Commit frames is sent in plaintext and shared across all commit frames.
-- It is essential that _f(x)_ results in a valid elliptic curve point for all _x_. We use [Elligator Squared](https://eprint.iacr.org/2014/043.pdf) to encode an elliptic curve point into two numbers _(u,v)_ where every combination of these numbers represents a valid curve point. We then separately perform polynomial interpolation for u-values and v-values.
-- When the AP iterators for all passwords, this should be done in a random order. Otherwise, an adversary can perform a timing attack to identify whether different clients use the same password.
+- It is essential that _f(x)_ results in a valid elliptic curve point for all _x_. We use [Elligator Squared](https://eprint.iacr.org/2014/043.pdf) to encode an elliptic curve point into two numbers _(u,v)_ where every combination of these numbers represents a valid curve point. We then separately perform polynomial interpolation for the u-values and v-values.
+- When the AP iterates over all passwords, this should be done in a random order. Otherwise, an adversary can perform a timing attack to identify whether different clients use the same password.
 - For the polynomial interpolation step, we first precompute the [inverse of the Vandermonde matrix](https://dl.acm.org/doi/pdf/10.1145/1966913.1966950), and then use this matrix to separately encode the u-values and v-values that are output by Elligator Squared.
 
 
@@ -74,6 +75,8 @@ Extra remarks:
 - Our implementation of Elligator Squared can likely be optimized to be faster and take slightly less output, see [ElligatorSwift](https://eprint.iacr.org/2022/759.pdf).
 - In case Dragonfly switches to [Safe Curves](https://safecurves.cr.yp.to/ind.html), then [Elligator 2](https://elligator.org/) encoding can be used, which encodes elliptic curve points using only a single number. This means that data overhead would be reduced by half.
 - Dragonfly has not been proven secure when the first message is reused. However, [reusing the first message has been proven secure for CPace](https://eprint.iacr.org/2024/234.pdf). This would allow reusing the interpolated polynomial across multiple handshakes.
+- More generally, how that patents such as [US6226383B1](https://patents.google.com/patent/US6226383) are expired, we consider usage of **[CPace](https://datatracker.ietf.org/doc/draft-irtf-cfrg-cpace/) instead of Dragonfly** to be a more efficient and cleaner solution.
+
 
 ## Acknowledgments
 
