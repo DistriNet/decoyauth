@@ -75,7 +75,7 @@ Extra remarks:
 - Our implementation of Elligator Squared can likely be optimized to be faster and take slightly less output, see [ElligatorSwift](https://eprint.iacr.org/2022/759.pdf).
 - In case Dragonfly switches to [Safe Curves](https://safecurves.cr.yp.to/ind.html), then [Elligator 2](https://elligator.org/) encoding can be used, which encodes elliptic curve points using only a single number. This means that data overhead would be reduced by half.
 - Dragonfly has not been proven secure when the first message is reused. However, [reusing the first message has been proven secure for CPace](https://eprint.iacr.org/2024/234.pdf). This would allow reusing the interpolated polynomial across multiple handshakes.
-- More generally, how that patents such as [US6226383B1](https://patents.google.com/patent/US6226383) are expired, we consider usage of **[CPace](https://datatracker.ietf.org/doc/draft-irtf-cfrg-cpace/) instead of Dragonfly** to be a more efficient and cleaner solution.
+- More generally, now that patents such as [US6226383B1](https://patents.google.com/patent/US6226383) are expired, we consider usage of **[CPace](https://datatracker.ietf.org/doc/draft-irtf-cfrg-cpace/) instead of Dragonfly** to be a more efficient and cleaner solution.
 
 
 ## Acknowledgments
