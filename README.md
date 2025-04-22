@@ -20,3 +20,4 @@ More broadly, we hope our work will also be the basis of other future research o
 
 - February 2025: Presentation on our initial design, the [slides are public](docs/slides-feb2025.pdf).
 - 18 March 2025: [Proof-of-concept Python code](scripts/README.md) of a first protocol design was added. This is only for experimentation, do not use it in production.
+- 22 April 2025: A [whitepaper](docs/whitepaper.pdf) with a draft description of the protocol is available.
