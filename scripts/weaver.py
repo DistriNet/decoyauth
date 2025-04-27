@@ -10,34 +10,34 @@ def precompute(xs, prime):
     for i in range(2, n):
         a[i] = (-xs[i] * a[i-1]) % prime
         for m in range(i-1, 0, -1):
-            a[m] = ((a[m] % prime) - (xs[i] * a[m-1]) % prime) % prime
+            a[m] = (a[m] - xs[i] * a[m-1]) % prime
         a[0] = (a[0] - xs[i]) % prime
 
     p = [1 for _ in range(n)]
     for i in range(n):
         for j in range(n):
             if j != i:
-                p[i] = (p[i] % prime) * ((xs[i] - xs[j]) % prime)
+                p[i] = (p[i] * (xs[i] - xs[j])) % prime
 
     matrix = [[0 for _ in range(n)] for _ in range(n)]
 
     for i in range(n):
         b = [1]
         for j in range(n-1):
-            b.append((a[j] % prime) + (xs[i] * b[j]) % prime)
+            b.append((a[j] + xs[i] * b[j]) % prime)
         for j in range(n):
-            matrix[j][i] = (b[n-1-j] % prime) * invert_mod(p[i], prime)
-            
+            matrix[j][i] = (b[n-1-j] * invert_mod(p[i], prime) % prime)
+
     return matrix
 
-def waever(ys, matrix, prime):
+def weaver(ys, matrix, prime):
     n = len(ys)
-    
+
     c = []
     for i in range(n):
         c.append(0)
         for j in range(n):
-            c[i] = (c[i] % prime) + ((matrix[i][j] * ys[j]) % prime)
+            c[i] = (c[i] + matrix[i][j] * ys[j]) % prime
 
     return c
 

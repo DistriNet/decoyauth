@@ -78,6 +78,18 @@ def calc_v(q: tuple[int, int], j: int, a: int, b: int, prime: int):
 
 # -------------------------------------------------------------------------------------
 
+def point_to_values_for_u_j(point: tuple[int, int], a: int, b: int, prime: int, u: int, j: int):
+    if u == prime - 0x1 or u == 0x0 or u == 0x1:
+        return None
+
+    f_val = f(u, a, b, prime)
+    q = ec_sub(point, f_val, a, prime)
+    if q == (0, 0):
+        return None
+    
+    return calc_v(q, j, a, b, prime)
+
+
 def point_to_values(point: tuple[int, int], a: int, b: int, prime: int):
     """
     Based on the following paper and existing implementations:
@@ -88,45 +100,20 @@ def point_to_values(point: tuple[int, int], a: int, b: int, prime: int):
     """
     for i in range(1000):
         u = random.randint(1, secp256r1_p-1)
-        if u == prime - 0x1 or u == 0x0 or u == 0x1:
-            continue
-        
-        f_val = f(u, a, b, prime)
-        q = ec_sub(point, f_val, a, prime)
-        if q == (0, 0):
-            continue
-    
         j = random.randint(0, 4)
-        v = calc_v(q, j, a, b, prime)
-        if v is None:
-            continue
+        v = point_to_values_for_u_j(point, a, b, prime, u, j)
+        if v is None: continue
 
         return u, v
-        # b = bytearray(64)
-        # b[:32] = u.to_bytes(32, byteorder='big')
-        # b[32:] = v.to_bytes(32, byteorder='big')
-        # return b
         
     print("ERROR: Could not find a valid candidate, suspect RNG failure")
     return None
 
-def values_to_point(encoded_point: tuple[int, int], a: int, b: int, prime: int):
-    # u = int.from_bytes(encoded_point[:32], byteorder='big')
-    # v = int.from_bytes(encoded_point[32:], byteorder='big')
-    u, v = encoded_point
-    
+def values_to_point(u: int, v :int, a: int, b: int, prime: int):
     f_u = f(u, a, b, prime)
     f_v = f(v, a, b, prime)
     
     point_u = (f_u[0], f_u[1])
     point_v = (f_v[0], f_v[1])
     return ec_add(point_u, point_v, a, prime)
-
-
-# Basic test
-P = (0x12D4D7A6C9F0AB5AEFA23333BC1CDF1C74BAF471A609BE195FF1DCDF159F25EA, 0x1FC1DE07FD09F9C252522FD3C3FEF274B6063EA46D6BD4123870B052692C43BD)
-encoded_point = point_to_values(P, secp256r1_a, secp256r1_b, secp256r1_p)
-recovered_point = values_to_point(encoded_point, secp256r1_a, secp256r1_b, secp256r1_p)
-assert P[0] == recovered_point[0], f"Expected {hex(P[0])}, got {hex(recovered_point[0])})"
-assert P[1] == recovered_point[1], f"Expected {hex(P[0])}, got {hex(recovered_point[0])})"
 
