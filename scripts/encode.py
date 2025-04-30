@@ -55,19 +55,16 @@ def calc_v(q: tuple[int, int], j: int, a: int, b: int, prime: int):
     omega = ((a * invert_mod(b, prime) * x) + 0x1) % prime
     omega_square = omega * omega % prime
     
-    two = 0x1 + 0x1 % prime
-    four = two + two % prime
-
-    sqrt = modular_sqrt(omega_square - four * omega, prime)
+    sqrt = modular_sqrt(omega_square - 4 * omega, prime)
     if sqrt is None:
         return None
     
     sqrt = sqrt if j == 0 or j == 1 else prime - sqrt
 
     if is_quadratic_residue(y, prime):
-        multiply = invert_mod(two * omega, prime)
+        multiply = invert_mod(2 * omega, prime)
     else:
-        multiply = invert_mod(two, prime)
+        multiply = invert_mod(2, prime)
 
     res_sqrt = modular_sqrt((omega + sqrt) * multiply, prime)
     if res_sqrt is None:
