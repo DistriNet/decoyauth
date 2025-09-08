@@ -3,8 +3,8 @@
 
 #pragma once
 
-#ifndef ELLIGATOR_SQUARED_H
-#define ELLIGATOR_SQUARED_H
+#ifndef ENCODE_H
+#define ENCODE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,4 +31,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif				// ELLIGATOR_SQUARED_H
+#endif // ENCODE_H

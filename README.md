@@ -22,5 +22,6 @@ More broadly, we hope our work will also be the basis of other future research o
 - 18 March 2025: [Proof-of-concept Python code](scripts/README.md) of a first protocol design was added. This is only for experimentation, do not use it in production.
 - 22 April 2025: A [whitepaper](docs/whitepaper.pdf) with a draft description of the protocol is available.
 - 27 April 2025: [Unit tests and test vectors](scripts/TESTS.md) have been generated and added.
-- 27 July 2025: [Proof-of-concept C code](c-prototype/README.md) has ben written for a draft protocol.
+- 27 July 2025: [Proof-of-concept C code](c-prototype/README.md) has been written for a draft protocol.
+- 8 September 2025: [Proof-of-concept hostap code](hostap/README.md) that integrates our draft protocol.
 
